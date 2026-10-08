@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE Masterminds Practice Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .question-card {
+            background: #f9f9f9;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #3498db;
+        }
+        .question-text {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin-bottom: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .options li:hover {
+            background: #eef2f5;
+        }
+        .options label {
+            display: block;
+            padding: 10px 15px;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .options input[type="radio"] {
+            margin-right: 10px;
+        }
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #27ae60;
+            color: #fff;
+            border: none;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 30px;
+        }
+        .btn-submit:hover {
+            background-color: #219653;
+        }
+        #result-container {
+            margin-top: 30px;
+            padding: 20px;
+            text-align: center;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            font-size: 1.5em;
+            font-weight: bold;
+            display: none;
+        }
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            font-weight: 500;
+        }
+        .correct-feedback {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .incorrect-feedback {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CSE Masterminds Practice Quiz</h1>
+        <p style="text-align: center; margin-bottom: 30px;">Test your knowledge on the Colombo Stock Exchange, capital markets, and the Sri Lankan economy. Select the best answer for each question and submit at the end to see your score.</p>
+        
+        <form id="quiz-form">
+            <div id="quiz-container"></div>
+            <button type="submit" class="btn-submit">Submit Quiz</button>
+        </form>
+        
+        <div id="result-container"></div>
+        <div class="footer">
+            Generated for CSE Masterminds Preparation
+        </div>
+    </div>
+
+    <script>
+        const quizData = [{"q": "In which year was the Colombo Stock Exchange (CSE) established under its current name?", "options": ["1985", "1990", "1995", "1896"], "answer": 0}, {"q": "What does ASPI stand for in the context of the CSE?", "options": ["All Share Price Index", "Asian Stock Price Index", "Average Share Price Index", "Annual Stock Performance Index"], "answer": 0}, {"q": "How many companies are included in the S&P SL20 index?", "options": ["10", "20", "30", "50"], "answer": 1}, {"q": "What is the primary regulatory body for the capital markets in Sri Lanka?", "options": ["Central Bank of Sri Lanka (CBSL)", "Securities and Exchange Commission of Sri Lanka (SEC)", "Ministry of Finance", "Colombo Stock Exchange"], "answer": 1}, {"q": "In which year did the CSE introduce its Automated Trading System (ATS)?", "options": ["1991", "1995", "1997", "2001"], "answer": 2}, {"q": "What does CDS stand for in the Sri Lankan capital market?", "options": ["Central Depository Systems", "Corporate Depository Securities", "Capital Distribution System", "Centralized Dividend System"], "answer": 0}, {"q": "When was the Central Depository Systems (CDS) established?", "options": ["1985", "1991", "1995", "2000"], "answer": 1}, {"q": "Which international index provider partnered with CSE to launch the S&P SL20 index?", "options": ["Dow Jones", "FTSE Russell", "MSCI", "Standard & Poor's (S&P)"], "answer": 3}, {"q": "In what year was the S&P SL20 index launched?", "options": ["2008", "2010", "2012", "2015"], "answer": 2}, {"q": "What was the precursor to the Colombo Stock Exchange?", "options": ["Colombo Brokers' Association", "Sri Lanka Stock Brokers", "Ceylon Share Market", "National Stock Exchange of Ceylon"], "answer": 0}, {"q": "Which sector typically has the highest market capitalization on the CSE?", "options": ["Manufacturing", "Banks", "Telecommunication", "Hotels and Travels"], "answer": 1}, {"q": "What is a 'Bull Market'?", "options": ["A market in which share prices are falling", "A market in which share prices are rising", "A market with no price movement", "A market highly regulated by the government"], "answer": 1}, {"q": "What is the term for a market characterized by falling prices?", "options": ["Bull Market", "Bear Market", "Stag Market", "Eagle Market"], "answer": 1}, {"q": "What is a 'Blue Chip' company?", "options": ["A start-up company", "A company that produces microchips", "A nationally recognized, well-established, and financially sound company", "A company facing bankruptcy"], "answer": 2}, {"q": "What does IPO stand for?", "options": ["Initial Public Offering", "Internal Profit Objective", "International Portfolio Organization", "Investment and Portfolio Output"], "answer": 0}, {"q": "What is a Dividend?", "options": ["A tax paid to the government", "A distribution of a portion of a company's earnings to its shareholders", "The fee charged by a stockbroker", "The interest paid on a corporate bond"], "answer": 1}, {"q": "What does Market Capitalization represent?", "options": ["The total debt of a company", "The total value of a company's outstanding shares of stock", "The total annual profit of a company", "The total assets of a company"], "answer": 1}, {"q": "How is Market Capitalization calculated?", "options": ["Share Price + Number of Outstanding Shares", "Share Price x Number of Outstanding Shares", "Total Assets - Total Liabilities", "Total Revenue - Total Expenses"], "answer": 1}, {"q": "What is a Right Issue?", "options": ["Issuing shares to new investors only", "An invitation to existing shareholders to purchase additional new shares in the company", "Selling company assets", "Paying off company debt"], "answer": 1}, {"q": "What is a Bonus Issue?", "options": ["A cash bonus given to employees", "Free additional shares given to existing shareholders", "A special dividend", "A discount on brokerage fees"], "answer": 1}, {"q": "What does EPS stand for?", "options": ["Earnings Per Share", "Equity Profit Share", "Estimated Price System", "Economic Policy Standard"], "answer": 0}, {"q": "What is the P/E Ratio?", "options": ["Profit / Equity", "Price / Earnings", "Performance / Efficiency", "Portfolio / Earnings"], "answer": 1}, {"q": "What does a high P/E ratio typically indicate?", "options": ["The stock is undervalued", "Investors expect higher earnings growth in the future", "The company is making a loss", "The company is about to go bankrupt"], "answer": 1}, {"q": "What is a Corporate Bond?", "options": ["A debt security issued by a corporation", "A share in a corporation", "A tax paid by corporations", "A type of insurance for corporations"], "answer": 0}, {"q": "What is the Central Bank of Sri Lanka (CBSL)'s primary responsibility?", "options": ["Regulating the stock market", "Managing monetary policy and financial system stability", "Collecting taxes", "Promoting tourism"], "answer": 1}, {"q": "What is a Stock Split?", "options": ["When a company divides its existing shares into multiple shares", "When a company goes bankrupt", "When two companies merge", "When a shareholder sells all their stock"], "answer": 0}, {"q": "What is the primary benefit of a stock split?", "options": ["It increases the market capitalization", "It makes the shares more affordable to small investors", "It guarantees a dividend payment", "It reduces the company's debt"], "answer": 1}, {"q": "What is Insider Trading?", "options": ["Trading stocks within the country", "Trading based on material, non-public information", "Trading by employees of the stock exchange", "Trading outside of regular market hours"], "answer": 1}, {"q": "What is a Mutual Fund?", "options": ["A government fund for emergencies", "An investment vehicle made up of a pool of money collected from many investors", "A bank account for mutual friends", "A charity fund"], "answer": 1}, {"q": "What is an ETF?", "options": ["Exchange Traded Fund", "Electronic Transfer Facility", "Equity Trading Format", "Economic Transformation Fund"], "answer": 0}, {"q": "In Sri Lanka, what is the statutory body established to protect investors and maintain fair, efficient, and transparent markets?", "options": ["CSE", "SEC", "CBSL", "EPF"], "answer": 1}, {"q": "Which system facilitates the clearing and settlement of securities traded on the CSE?", "options": ["RTGS", "CDS", "ATS", "SWIFT"], "answer": 1}, {"q": "What is a 'Limit Order'?", "options": ["An order to buy or sell a stock at the best available current price", "An order to buy or sell a stock at a specific price or better", "An order that limits the number of shares you can buy", "An order placed after market hours"], "answer": 1}, {"q": "What is a 'Market Order'?", "options": ["An order to buy or sell a stock immediately at the best available current price", "An order to buy or sell a stock at a specific price", "An order restricted to specific market sectors", "An order placed directly with the company"], "answer": 0}, {"q": "What is the base year for the All Share Price Index (ASPI)?", "options": ["1975", "1985", "1990", "1995"], "answer": 1}, {"q": "What is Liquidity in the context of a stock market?", "options": ["The amount of cash a company holds", "The ease with which a stock can be bought or sold without affecting its price", "The dividend yield of a stock", "The total debt of the market"], "answer": 1}, {"q": "What does ROI stand for?", "options": ["Return on Investment", "Rate of Inflation", "Risk of Investment", "Revenue on Income"], "answer": 0}, {"q": "What is a Portfolio?", "options": ["A single stock investment", "A collection of financial investments like stocks, bonds, commodities", "A type of corporate bond", "A regulatory document"], "answer": 1}, {"q": "What is Diversification?", "options": ["Investing all money in one stock", "A risk management strategy that mixes a wide variety of investments within a portfolio", "Changing the business model of a company", "Selling all stocks at once"], "answer": 1}, {"q": "What is Fiscal Policy?", "options": ["Policy regarding the money supply and interest rates", "Government policy regarding taxation and spending", "Policy regulating the stock exchange", "Foreign trade policy"], "answer": 1}, {"q": "What is Monetary Policy?", "options": ["Government policy on taxation", "Policy adopted by the monetary authority (like CBSL) to control either the interest rate or money supply", "Policy on corporate governance", "Environmental regulation policy"], "answer": 1}, {"q": "What is Inflation?", "options": ["A decrease in the general price level of goods and services", "The rate at which the general level of prices for goods and services is rising", "An increase in the value of money", "A stable economic period"], "answer": 1}, {"q": "What is the Sri Lanka Interbank Offered Rate called?", "options": ["LIBOR", "SLIBOR", "AWPR", "AWDR"], "answer": 1}, {"q": "What does AWPR stand for in Sri Lanka?", "options": ["Average Weighted Prime Lending Rate", "Annual Weighted Price Ratio", "Average Wealth Performance Rate", "All World Price Return"], "answer": 0}, {"q": "What is a 'Primary Market'?", "options": ["Where previously issued securities are traded", "Where investors buy securities directly from the company issuing them", "The most important stock exchange in the world", "The market for agricultural goods"], "answer": 1}, {"q": "What is a 'Secondary Market'?", "options": ["Where new securities are issued", "Where investors buy and sell securities they already own", "A less important stock exchange", "The market for second-hand goods"], "answer": 1}, {"q": "What is a 'Hedge' in finance?", "options": ["A bush used for landscaping", "An investment made to reduce the risk of adverse price movements in an asset", "A high-risk speculative investment", "A guaranteed return investment"], "answer": 1}, {"q": "Which rating agency is widely known for rating Sri Lankan corporate debt?", "options": ["Fitch Ratings", "Moody's", "Standard & Poor's", "All of the above"], "answer": 3}, {"q": "What is Yield to Maturity (YTM)?", "options": ["The total return anticipated on a bond if held until it matures", "The dividend paid on a stock", "The interest rate set by the Central Bank", "The penalty for early withdrawal of a fixed deposit"], "answer": 0}, {"q": "What is Capital Gains Tax (CGT)?", "options": ["A tax on the regular income of a company", "A tax on the profit realized on the sale of a non-inventory asset that was purchased at a lower price", "A tax on dividends", "A tax on financial transactions"], "answer": 1}];
+        const container = document.getElementById('quiz-container');
+
+        // Render Questions
+        quizData.forEach((q, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question-card';
+
+            const qText = document.createElement('div');
+            qText.className = 'question-text';
+            qText.innerText = `${index + 1}. ${q.q}`;
+            qDiv.appendChild(qText);
+
+            const optionsList = document.createElement('ul');
+            optionsList.className = 'options';
+
+            q.options.forEach((opt, optIndex) => {
+                const li = document.createElement('li');
+                const label = document.createElement('label');
+                
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = `question${index}`;
+                radio.value = optIndex;
+
+                label.appendChild(radio);
+                label.appendChild(document.createTextNode(' ' + opt));
+                
+                li.appendChild(label);
+                optionsList.appendChild(li);
+            });
+            qDiv.appendChild(optionsList);
+
+            const feedback = document.createElement('div');
+            feedback.className = 'feedback';
+            feedback.id = `feedback${index}`;
+            qDiv.appendChild(feedback);
+
+            container.appendChild(qDiv);
+        });
+
+        // Handle Submission
+        document.getElementById('quiz-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let score = 0;
+
+            quizData.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="question${index}"]:checked`);
+                const feedback = document.getElementById(`feedback${index}`);
+                feedback.style.display = 'block';
+
+                if (selected) {
+                    const answer = parseInt(selected.value);
+                    if (answer === q.answer) {
+                        score++;
+                        feedback.className = 'feedback correct-feedback';
+                        feedback.innerHTML = '✅ Correct!';
+                    } else {
+                        feedback.className = 'feedback incorrect-feedback';
+                        feedback.innerHTML = `❌ Incorrect. The correct answer is: <strong>${q.options[q.answer]}</strong>`;
+                    }
+                } else {
+                    feedback.className = 'feedback incorrect-feedback';
+                    feedback.innerHTML = `⚠️ Not answered. The correct answer is: <strong>${q.options[q.answer]}</strong>`;
+                }
+                
+                // Disable radio buttons after submit
+                const radios = document.querySelectorAll(`input[name="question${index}"]`);
+                radios.forEach(radio => radio.disabled = true);
+            });
+
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.style.display = 'block';
+            
+            const percentage = Math.round((score / quizData.length) * 100);
+            let message = "";
+            if (percentage >= 80) message = "Excellent work! You are well prepared.";
+            else if (percentage >= 50) message = "Good job! Keep studying to improve your score.";
+            else message = "Keep practicing! Review the concepts and try again.";
+            
+            resultContainer.innerHTML = `You scored ${score} out of ${quizData.length} (${percentage}%)<br><span style="font-size: 0.7em; font-weight: normal; display: block; margin-top: 10px;">${message}</span>`;
+            
+            // Scroll to top to see score
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Hide submit button after submission
+            document.querySelector('.btn-submit').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
